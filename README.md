@@ -19,13 +19,13 @@
 
 ---
 
-##  📢 Introduction
+##  📢  Introduction
 
 Inception is a robust project that leverages the power of Docker to seamlessly integrate Nginx and MariaDB. Whether you're looking to set up a web server or a database, Inception has got you covered.
 
 ---
 
-## 🚀 Features
+## 📚  Features
 
 - **Docker Integration**: Easily manage multiple containers with Docker Compose.
 - **Nginx Setup**: Pre-configured Nginx with SSL support.
@@ -33,7 +33,7 @@ Inception is a robust project that leverages the power of Docker to seamlessly i
 
 ---
 
-## 🛠 Setup & Installation
+## 🛠  Setup & Installation
 
    ```bash
    git clone https://github.com/gde-alme/inception.git
@@ -41,4 +41,4 @@ Inception is a robust project that leverages the power of Docker to seamlessly i
    make
    ```
 
-## 🧪 Usage
+## 🧪  Usage
