@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://path-to-your-logo-if-you-have-one.png" alt="Inception Logo" width="200">
+  <img src="https://media.makeameme.org/created/the-simulation-environment.jpg" alt="Inception Logo" width="200">
 </p>
 
 <h1 align="center">Inception</h1>
