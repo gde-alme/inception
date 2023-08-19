@@ -14,16 +14,16 @@ services:
    - "443:443"
   restart: always
 
-# mariadb:
-#  build:
-#   context: .
-#   dockerfile: requirements/mariadb/Dockerfile
-#   args:
-#    DB_NAME: ${DB_NAME}
-#    DB_USER: ${DB_USER}
-#    DB_PASS: ${DB_PASS}
-#    DB_ROOT: ${DB_ROOT}
-#  container_name: mariadb
-#  ports:
-#   - "3306:3306"
-#  restart: always
+ mariadb:
+  build:
+   context: .
+   dockerfile: ./requirements/mariadb/Dockerfile/.
+    args:
+     DB_NAME: ${DB_NAME}
+     DB_USER: ${DB_USER}
+     DB_PASS: ${DB_PASS}
+     DB_ROOT: ${DB_ROOT}
+  container_name: mariadb
+  ports:
+   - "3306:3306"
+  restart: always
