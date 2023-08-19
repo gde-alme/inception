@@ -1,7 +1,7 @@
-FROM debian:11
+FROM debian:11.7
 
-RUN apt update && apt upgrade -y ; apt install -y nginx
+RUN apt-get update && apt-get upgrade -y ; apt-get install -y nginx
 
-EXPOSE 443
+COPY ./conf/default.conf /etc/nginx/sites-available/default
 
-CMD ["nginx", "-g", "daemon off"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
