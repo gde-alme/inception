@@ -21,15 +21,15 @@
 
 ##  📢  Introduction
 
-Inception is a robust project that leverages the power of Docker to seamlessly integrate Nginx and MariaDB. Whether you're looking to set up a web server or a database, Inception has got you covered.
-
+Inception is a robust project that leverages the power of Docker to seamlessly integrate Nginx, MariaDB and wordpress. 
+  
 ---
 
 ## 📚  Features
 
-- **Docker Integration**: Easily manage multiple containers with Docker Compose.
-- **Nginx Setup**: Pre-configured Nginx with SSL support.
-- **MariaDB Configuration**: Dockerized MariaDB with initialization scripts.
+- **Nginx**: Pre-configured Nginx with SSL support.
+- **MariaDB**: Dockerized MariaDB database.
+- **Wordpress**: 
 
 ---
 
