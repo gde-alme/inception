@@ -1,34 +1,22 @@
-FROM debian:11
+FROM debian:11.7
 
-ARG	DB_NAME
-ARG	DB_USER
-ARG	DB_PASS
+RUN apt-get update && \
+    apt-get install -y curl mariadb-server  && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt update && apt install -y mariadb-server
-
-RUN mkdir /var/run/mysql 
-RUN chmod 777 /var/run/mysql
-
-RUN mkdir /var/run/mysqld
-RUN chmod 777 /var/run/mysqld
-
-RUN mkdir -p /etc/my.cnf.d/
-
-RUN echo '[mysqld]' > /etc/my.cnf.d/docker.cnf
-RUN echo 'skip-host-cache' >> /etc/my.cnf.d/docker.cnf
-RUN echo 'skip-name-resolve' >> /etc/my.cnf.d/docker.cnf
-RUN echo 'bind-address=0.0.0.0' >> /etc/my.cnf.d/docker.cnf
-
-RUN if [ -f /etc/my.cnf.d/mariadb-server.cnf ]; then \
-    sed -i "s|skip-networking|skip-networking=0|g" /etc/my.cnf.d/mariadb-server.cnf; \
-    fi
-
-RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
+RUN curl -v -LJO https://raw.githubusercontent.com/sismics/docker-mariadb/master/etc/mysql/mariadb.conf.d/50-server.cnf ; \
+    cp ./50-server.cnf /etc/mysql/mariadb.conf.d/ ; \
+    rm ./50-server.cnf
 
 EXPOSE 3306
-COPY requirements/mariadb/conf/create_db.sh .
-RUN sh create_db.sh && rm create_db.sh
-USER mysql
-ENTRYPOINT ["/usr/bin/mysqld"]
-CMD ["/usr/bin/mysqld", "--skip-log-error"]
 
+COPY ./tools/setup-mariadb.sh /tmp/setup-mariadb.sh
+
+RUN chmod +x /tmp/setup-mariadb.sh ; \
+    bash /tmp/setup-mariadb.sh ; \
+    rm /tmp/setup-mariadb.sh
+
+USER mysql
+
+CMD ["/usr/sbin/mysqld", "--skip-log-error"]
