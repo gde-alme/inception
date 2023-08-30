@@ -8,7 +8,7 @@ volumes:
       type: none
   mdb-volume:
     driver_opts:
-      device: /home/${USER}/data/wordpress
+      device: /home/${USER}/data/mariadb
       o: bind
       type: none
 
@@ -17,34 +17,54 @@ networks:
     driver: bridge
 
 services:
- nginx:
-  container_name: nginx
-  build:
-   context: ./requirements/nginx/.
-  volumes:
-    - ./requirements/nginx/tools:/etc/nginx/ssl/
-    - ./public:/var/www/
-#    depends_on:
-#     - wordpress
-  ports:
-    - "443:443"
+ wordpress:
+  container_name: wordpress
   restart: always
+  depends_on:
+    - mariadb
+  build:
+    context: ./requirements/wordpress/
+    args:
+      - DB_NAME=$DB_NAME
+      - DB_USER=$DB_USER
+      - DB_PASS=$DB_PASS
+  volumes:
+    - wp-volume:/var/www/
+  ports:
+    - "9000:9000"
   networks:
     - inception
 
  mariadb:
   container_name: mariadb
+  restart: always
   build: 
    context: ./requirements/mariadb/
    args:
      - DB_NAME=${DB_NAME}
      - DB_USER=${DB_USER}
      - DB_PASS=${DB_PASS}
-     - DB_ROOT=${DB_ROOT}
+  volumes:
+   - mdb-volume:/var/lib/mysql
   env_file:
    - .env
   ports:
    - "3306:3306"
+  networks:
+    - inception
+
+ nginx:
+  container_name: nginx
   restart: always
+  depends_on:
+    - wordpress
+  build:
+   context: ./requirements/nginx/.
+  volumes:
+    - ./requirements/nginx/tools:/etc/nginx/ssl/
+#    - ./public:/var/www/
+    - wp-volume:/var/www/
+  ports:
+    - "443:443"
   networks:
     - inception

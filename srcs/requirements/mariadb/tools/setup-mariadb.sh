@@ -1,5 +1,7 @@
 #!/bin/bash
-#!/bin/bash
+
+#chown -R mysql:mysql /var/lib/mysql
+chmod 777 /var/lib/mysql
 
 # Create directories and set permissions
 mkdir -p /var/run/mysqld

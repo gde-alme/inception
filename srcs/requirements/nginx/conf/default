@@ -7,7 +7,7 @@ server {
 
 	root    /var/www/;
 
-	index index.html;
+	index index.php;
 
 	ssl_certificate     /etc/nginx/ssl/gde-alme.42.fr.crt;
 	ssl_certificate_key /etc/nginx/ssl/gde-alme.42.fr.key;
@@ -16,5 +16,12 @@ server {
 
 	ssl_session_timeout	10m;
 	keepalive_timeout	70;
+
+	location ~ \.php$ {
+        	fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        	fastcgi_pass wordpress:9000;
+        	include fastcgi_params;
+        	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    	}
 
 }

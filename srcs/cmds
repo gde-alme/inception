@@ -1,2 +1,0 @@
-docker exec -it mariadb bash -c "MYSQL_PWD='$your_password' mysql -u $user"
-
