@@ -1,22 +1,30 @@
 FROM debian:11.7
 
-RUN apt-get update && \
-    apt-get install -y curl mariadb-server  && \
+ARG DB_NAME
+ARG DB_USER
+ARG DB_PASS
+
+RUN apt-get update && apt-get upgrade && \
+    apt-get install -y curl mariadb-server mariadb-client && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -v -LJO https://raw.githubusercontent.com/sismics/docker-mariadb/master/etc/mysql/mariadb.conf.d/50-server.cnf ; \
-    cp ./50-server.cnf /etc/mysql/mariadb.conf.d/ ; \
-    rm ./50-server.cnf
+COPY ./tools/setup-mariadb.sh ./
+RUN chmod +x ./setup-mariadb.sh
+RUN ./setup-mariadb.sh
 
-EXPOSE 3306
+CMD ["mysqld", "--user=root", "--init-file=/docker-entrypoint-initdb.d/init.sql"]
 
-COPY ./tools/setup-mariadb.sh /tmp/setup-mariadb.sh
+#RUN cat /etc/mysql/mariadb.conf.d/50-server.cnf
 
-RUN chmod +x /tmp/setup-mariadb.sh ; \
-    bash /tmp/setup-mariadb.sh ; \
-    rm /tmp/setup-mariadb.sh
+#EXPOSE 3306
 
-USER mysql
+#COPY ./tools/setup-mariadb.sh /tmp/setup-mariadb.sh
 
-CMD ["/usr/sbin/mysqld", "--skip-log-error"]
+#RUN chmod +x /tmp/setup-mariadb.sh ; \
+#    bash /tmp/setup-mariadb.sh ; \
+#    rm /tmp/setup-mariadb.sh
+
+#USER mysql
+
+#CMD ["/usr/sbin/mysqld", "--skip-log-error"]
