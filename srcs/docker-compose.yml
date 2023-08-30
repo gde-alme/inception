@@ -1,5 +1,10 @@
 version: '3'
 
+  #volumes:
+  #  wp-volume:
+  #  driver_opts:
+  #    device: /home/gde-alme/data/wordpress
+
 services:
  nginx:
   container_name: nginx
