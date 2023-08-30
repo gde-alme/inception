@@ -17,6 +17,6 @@ RUN apt-get update && apt-get -y upgrade && apt-get install -y wget curl unzip \
 RUN mkdir -p /run/php
 
 COPY ./tools/setup-wdpress.sh ./
-RUN chmod +x ./setup-wdpress.sh ; bash ./setup-wdpress.sh
+RUN chmod +x ./setup-wdpress.sh ; bash ./setup-wdpress.sh ; rm ./setup-wdpress.sh
 
 CMD ["php-fpm7.4", "-F"]

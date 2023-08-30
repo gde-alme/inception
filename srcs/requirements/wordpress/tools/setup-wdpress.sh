@@ -3,19 +3,20 @@ sed -i 's/;listen.owner = /listen.owner = www-data/g' /etc/php/7.4/fpm/pool.d/ww
 sed -i 's/;listen.group = nobody/listen.group = www-data/g' /etc/php/7.4/fpm/pool.d/www.conf
 
 mkdir -p /var/www
+chmod -R 777 /var/www
 
 wget https://wordpress.org/latest.zip
-unzip latest.zip
+unzip latest.zip -d /var/www/
 rm latest.zip
-cp -rf wordpress/* /var/www/*
-rm -rf wordpress
+mv /var/www/wordpress/* /var/www/
+rm -rf /var/www/wordpress
 
 mkdir ~/data
 mkdir ~/data/mariadb
 mkdir ~/data/wordpress
 chmod -R 777 ~/data
 
-touch wp-config.php
+#touch wp-config.php
 echo "<?php" > /var/www/wp-config.php
 echo "define( 'DB_NAME', '${DB_NAME}' );" >> /var/www/wp-config.php
 echo "define( 'DB_USER', '${DB_USER}' );" >> /var/www/wp-config.php
@@ -29,9 +30,6 @@ echo "define( 'WP_DEBUG', false );" >> /var/www/wp-config.php
 echo "if ( ! defined( 'ABSPATH' ) ) {" >> /var/www/wp-config.php
 echo "define( 'ABSPATH', __DIR__ . '/' );}" >> /var/www/wp-config.php
 echo "require_once ABSPATH . 'wp-settings.php';" >> /var/www/wp-config.php
+echo "?>" >> /var/www/wp-config.php
 
-chown -R www-data:www-data /var/www
-
-chmod -R 777 /var/www
-
-#chmod -R 777 /run/php
+#chown -R www-data:www-data /var/www

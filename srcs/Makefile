@@ -1,27 +1,23 @@
 all:
-	@chmod +x ./requirements/tools/setup-ssl.sh ; bash ./requirements/tools/setup-ssl.sh
-	@mkdir -p /home/$(USER)/data/wordpress
-	@mkdir -p /home/$(USER)/data/mariadb
-	docker-compose -f ./docker-compose.yml up -d
+	@mkdir -p /tmp/inception
+	@./run.sh all
+
 
 build:
-	@mkdir -p /home/$(USER)/data/wordpress
-	@mkdir -p /home/$(USER)/data/mariadb
-	docker-compose -f ./docker-compose.yml up -d --build
+	@mkdir -p /tmp/inception
+	@./run.sh build
 
 down:
-	docker-compose -f ./docker-compose.yml down
+	@./run.sh down
+
+clean: down
+	@./run.sh clean
+
+fclean:
+	@./run.sh fclean
 
 re: clean build
 
-clean: down
-	@rm -rf /home/$(USER)/data/
-	@rm -rf ./requirements/nginx/tools/*
-	docker system prune -a -f
+redo: fclean all
 
-fclean:
-	docker stop $$(docker ps -qa)
-	docker system prune --all --force --volumes
-	docker network prune --force
-	docker volume prune --force
-	docker volume rm $(docker volume ls -q)
+
