@@ -1,6 +1,5 @@
-name = inception
-
 all:
+	@chmod +x ./requirements/tools/setup-ssl.sh ; bash ./requirements/tools/setup-ssl.sh
 	@mkdir -p /home/$(USER)/data/wordpress
 	@mkdir -p /home/$(USER)/data/mariadb
 	docker-compose -f ./docker-compose.yml up -d
@@ -16,6 +15,8 @@ down:
 re: clean build
 
 clean: down
+	@rm -rf /home/$(USER)/data/
+	@rm -rf ./requirements/nginx/tools/*
 	docker system prune -a -f
 
 fclean:

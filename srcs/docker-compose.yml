@@ -1,9 +1,20 @@
 version: '3'
 
-  #volumes:
-  #  wp-volume:
-  #  driver_opts:
-  #    device: /home/gde-alme/data/wordpress
+volumes:
+  wp-volume:
+    driver_opts:
+      device: /home/${USER}/data/wordpress
+      o: bind
+      type: none
+  mdb-volume:
+    driver_opts:
+      device: /home/${USER}/data/wordpress
+      o: bind
+      type: none
+
+networks:
+  inception:
+    driver: bridge
 
 services:
  nginx:
@@ -12,11 +23,14 @@ services:
    context: ./requirements/nginx/.
   volumes:
     - ./requirements/nginx/tools:/etc/nginx/ssl/
+    - ./public:/var/www/
 #    depends_on:
 #     - wordpress
   ports:
     - "443:443"
   restart: always
+  networks:
+    - inception
 
  mariadb:
   container_name: mariadb
@@ -31,4 +45,6 @@ services:
    - .env
   ports:
    - "3306:3306"
-  #restart: always
+  restart: always
+  networks:
+    - inception
