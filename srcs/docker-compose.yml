@@ -24,6 +24,8 @@ services:
   restart: always
   depends_on:
     - mariadb
+  env_file:
+    - .env
   build:
     context: ./requirements/wordpress/
     args:
@@ -44,6 +46,8 @@ services:
  mariadb:
   container_name: mariadb
   restart: always
+  env_file:
+   - .env
   build: 
    context: ./requirements/mariadb/
    args:
@@ -52,8 +56,6 @@ services:
      - DB_PASS=${DB_PASS}
   volumes:
    - mdb-volume:/var/lib/mysql
-  env_file:
-   - .env
   ports:
    - "3306:3306"
   networks:
