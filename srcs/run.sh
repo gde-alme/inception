@@ -6,7 +6,7 @@ clear
 if [ "${1}" == "all" ]; then
 	chmod +x ./requirements/tools/setup-ssl.sh ; bash ./requirements/tools/setup-ssl.sh
 	mkdir -p /home/${USER}/data/wordpress ; chmod -R 777 /home/${USER}/data/wordpress
-	mkdir -p /home/${USER}/data/mariadb ; chmod -R 777 /home/${USER}/data/wordpress
+	mkdir -p /home/${USER}/data/mysql ; chmod -R 777 /home/${USER}/data/mysql
 	docker-compose -f ./docker-compose.yml up -d
 
 elif [ "${1}" == "build" ]; then

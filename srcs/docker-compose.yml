@@ -2,13 +2,15 @@ version: '3'
 
 volumes:
   wp-volume:
+    driver: local
     driver_opts:
       device: /home/${USER}/data/wordpress
       o: bind
       type: none
   mdb-volume:
+    driver: local
     driver_opts:
-      device: /home/${USER}/data/mariadb
+      device: /home/${USER}/data/mysql
       o: bind
       type: none
 
@@ -18,7 +20,6 @@ networks:
 
 services:
  wordpress:
-   #  user: "gde-alme:docker"
   container_name: wordpress
   restart: always
   depends_on:
@@ -26,9 +27,13 @@ services:
   build:
     context: ./requirements/wordpress/
     args:
+      - SERVER_NAME=$SERVER_NAME
       - DB_NAME=$DB_NAME
+      - DB_HOST=$DB_HOST
       - DB_USER=$DB_USER
       - DB_PASS=$DB_PASS
+      - DB_ROOT_USER=$DB_ROOT_USER
+      - DB_ROOT_PASS=$DB_ROOT_PASS
   volumes:
     - wp-volume:/var/www/
   ports:
@@ -37,7 +42,6 @@ services:
     - inception
 
  mariadb:
-   #user: "gde-alme:docker"
   container_name: mariadb
   restart: always
   build: 
@@ -56,7 +60,6 @@ services:
     - inception
 
  nginx:
-   #user: "gde-alme:docker"
   container_name: nginx
   restart: always
   depends_on:

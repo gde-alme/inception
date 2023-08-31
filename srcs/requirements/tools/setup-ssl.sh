@@ -12,7 +12,7 @@ sudo mv mkcert /usr/local/bin/
 
 sudo sed -i "s/127.0.0.1\tlocalhost/127.0.0.1\t$USERNAME.42.fr localhost/" /etc/hosts
 
-mkcert $USERNAME.42.fr
+mkcert -install $USERNAME.42.fr
 
 mv ./$USERNAME.42.fr-key.pem ./requirements/nginx/tools/$USERNAME.42.fr.key
 mv ./$USERNAME.42.fr.pem ./requirements/nginx/tools/$USERNAME.42.fr.crt

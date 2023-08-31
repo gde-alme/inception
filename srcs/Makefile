@@ -1,10 +1,8 @@
 all:
-	@mkdir -p /tmp/inception
 	@./run.sh all
 
 
 build:
-	@mkdir -p /tmp/inception
 	@./run.sh build
 
 down:

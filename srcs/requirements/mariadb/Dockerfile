@@ -1,17 +1,17 @@
-FROM debian:11.7
+FROM debian:bullseye
 
 ARG DB_NAME
 ARG DB_USER
 ARG DB_PASS
+ARG DB_ROOT
 
-RUN apt-get update && apt-get upgrade && \
-    apt-get install -y curl mariadb-server mariadb-client && \
-    apt-get clean && \
+RUN apt-get update -qq && \
+    apt-get install -y -qq mariadb-server mariadb-client && \
+    apt-get clean -qq && \
     rm -rf /var/lib/apt/lists/*
 
-COPY ./tools/setup-mariadb.sh ./
-RUN chmod +x ./setup-mariadb.sh
-RUN ./setup-mariadb.sh
 
-#CMD ["mysqld", "--user=root", "--init-file=/docker-entrypoint-initdb.d/init.sql"]
-CMD ["mysqld", "--init-file=/docker-entrypoint-initdb.d/init.sql"]
+COPY ./tools/setup-mariadb.sh /tmp/
+RUN chmod +x /tmp/setup-mariadb.sh
+
+ENTRYPOINT ["sh", "/tmp/setup-mariadb.sh"]

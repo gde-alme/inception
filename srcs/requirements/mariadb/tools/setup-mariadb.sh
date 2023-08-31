@@ -1,37 +1,47 @@
-#!/bin/bash
+#!/bin/sh
 
-#chown -R mysql:mysql /var/lib/mysql
-chmod 777 /var/lib/mysql
-
-# Create directories and set permissions
-mkdir -p /var/run/mysqld
-chmod 777 /var/run/mysqld
-
-# Create MySQL config file
-touch tmp.txt
-echo "[mysqld]" > tmp.txt
-echo "bind-address = 0.0.0.0" >> tmp.txt
-mv tmp.txt /etc/mysql/mariadb.conf.d/99-docker.cnf
-
-# Initialize MariaDB Database
-if [ ! -d "/var/lib/mysql/mysql" ]; then
-    mysql_install_db --user=root --datadir=/var/lib/mysql
-else
-    echo "MySQL database already initialized. Skipping mysql_install_db."
+if [ ! -d "/run/mysqld" ]; then
+	mkdir -p /run/mysqld
+	chown -R mysql:mysql /run/mysqld
 fi
 
-# Create SQL init file
-mkdir -p /docker-entrypoint-initdb.d
-touch /docker-entrypoint-initdb.d/init.sql
-echo "FLUSH PRIVILEGES;" >> /docker-entrypoint-initdb.d/init.sql
-echo "DELETE FROM mysql.user WHERE User='';" >> /docker-entrypoint-initdb.d/init.sql
-echo "DROP DATABASE IF EXISTS test;" >> /docker-entrypoint-initdb.d/init.sql
-echo "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';" >> /docker-entrypoint-initdb.d/init.sql
-echo "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');" >> /docker-entrypoint-initdb.d/init.sql
-echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_PASS}';" >> /docker-entrypoint-initdb.d/init.sql
-echo "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" >> /docker-entrypoint-initdb.d/init.sql
-echo "CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASS}';" >> /docker-entrypoint-initdb.d/init.sql
-echo "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';" >> /docker-entrypoint-initdb.d/init.sql
-echo "FLUSH PRIVILEGES;" >> /docker-entrypoint-initdb.d/init.sql
-echo "USE ${DB_NAME};" >> /docker-entrypoint-initdb.d/init.sql
+if [ ! -d "/var/lib/mysql/mysql" ]; then
+	
+	chown -R mysql:mysql /var/lib/mysql
 
+	# init database
+	mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
+
+	tfile=`mktemp`
+	if [ ! -f "$tfile" ]; then
+		return 1
+	fi
+
+	echo "fds"
+
+	cat << EOF > $tfile
+USE mysql;
+FLUSH PRIVILEGES;
+ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT';
+CREATE DATABASE $DB_NAME CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER '$DB_USER'@'%' IDENTIFIED by '$DB_PASS';
+GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';
+FLUSH PRIVILEGES;
+EOF
+	# run init.sql
+	/usr/sbin/mysqld --user=mysql --bootstrap < $tfile
+	rm -f $tfile
+fi
+
+# allow remote connections
+sed -i "s|skip-networking|# skip-networking|g" /etc/mysql/mariadb.conf.d/50-server.cnf
+sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/mysql/mariadb.conf.d/50-server.cnf
+
+
+exec /usr/sbin/mysqld --user=mysql --console
+
+
+#DROP DATABASE test;
+#DELETE FROM	mysql.user WHERE User='';
+#DELETE FROM mysql.db WHERE Db='test';
+#DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
