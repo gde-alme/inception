@@ -19,6 +19,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y wget curl unzip \
 	php-gd \
 	php-cli \
 	php-mbstring \
+	sendmail \
+	iputils-ping \
 	&& rm -rf /var/lib/apt/lists/
 
 RUN mkdir -p /run/php

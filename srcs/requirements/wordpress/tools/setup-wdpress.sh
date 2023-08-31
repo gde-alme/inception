@@ -42,14 +42,11 @@ if [ ! -f /var/www/wp-config.php ]; then
 	echo "define( 'ABSPATH', __DIR__ . '/' );}" >> /var/www/wp-config.php
 	echo "require_once ABSPATH . 'wp-settings.php';" >> /var/www/wp-config.php
 	#echo "?>" >> /var/www/wp-config.php
-	echo "Wordpress: setting up..."
 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar;
 	chmod +x wp-cli.phar; 
 	mv wp-cli.phar /usr/local/sbin/wp;
 	wp core download --allow-root;
-	echo "Wordpress: creating users..."
-	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME --admin_user=${DB_USER} --admin_password=${DB_PASS} --admin_email=mail@mail.com
+	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME --admin_user=${DB_ROOT_USER} --admin_email=mail@mail.com #--admin_password=${DB_PASS} 
 	#wp user create --allow-root ${DB_ROOT_USER} mail@mail.com --user_pass=${DB_ROOT_PASS};
-	echo "Wordpress: set up!"
 fi
 
