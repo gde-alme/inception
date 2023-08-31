@@ -64,6 +64,7 @@ if [ ! -f /var/www/wp-config.php ]; then
 	echo "Installing wordpress"
 	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME --admin_user=${DB_ROOT_USER} --admin_password=${DB_PASS} --admin_email=mail@mail.com #--admin_password=${DB_PASS} 
 	#wp user create --allow-root ${DB_ROOT_USER} mail@mail.com --user_pass=${DB_ROOT_PASS};
+	wp theme activate --allow-root twentytwentyone
 fi
 
 

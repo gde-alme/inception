@@ -5,8 +5,6 @@ all:
 	docker-compose -f ./docker-compose.yml up -d
 
 build:
-	mkdir -p /home/${USER}/data/wordpress ; chmod 777 /home/${USER}/data/wordpress
-	mkdir -p /home/${USER}/data/mariadb ; chmod 777 /home/${USER}/data/wordpress
 	docker-compose -f ./docker-compose.yml up -d --build
 
 down:

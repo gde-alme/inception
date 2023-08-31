@@ -27,14 +27,15 @@ Inception is a robust project that leverages the power of Docker to seamlessly i
 
 ## 📚  Features
 
-- **Nginx**: Pre-configured Nginx with SSL support.
-- **MariaDB**: Dockerized MariaDB database.
-- **Wordpress**: 
+- **Nginx**:Nginx with SSL to localhost (user.42.fr). 
+- **MariaDB**: MariaDB database ready for wordpress. 
+- **Wordpress**: Wordpress installation with admin and custom user 
 
 ---
 
 ## 🛠  Setup & Installation
 
+Edit .env file to desired auth
    ```bash
    git clone https://github.com/gde-alme/inception.git
    cd inception 

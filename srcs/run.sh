@@ -7,5 +7,5 @@ if [ "${1}" == "fclean" ]; then
 	docker network prune --force
 	docker volume prune --force
 	docker volume rm $(docker volume ls -q | awk '{printf "%s ", $0}')
-	rm -rf /home/${USER}/data/
+	sudo rm -rf /home/${USER}/data/
 fi
