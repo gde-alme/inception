@@ -1,13 +1,19 @@
 FROM debian:bullseye
 
 ARG SERVER_NAME
+
 ARG DB_NAME
 ARG DB_HOST
 ARG DB_USER
 ARG DB_PASS
-ARG DB_ROOT_USER
-ARG DB_ROOT_PASS
 
+
+ARG WP_ADMIN_USER
+ARG WP_ADMIN_PASS
+ARG WP_ADMIN_MAIL
+ARG WP_USER
+ARG WP_PASS
+ARG WP_MAIL
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y wget curl unzip \
 	php \

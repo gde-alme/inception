@@ -28,7 +28,6 @@ EOF
 
 # create directories and files
 mkdir -p /var/www
-#sed -i "s/listen = \/run\/php\/php7.4-fpm.sock/listen = 9000/" "/etc/php/7.4/fpm/pool.d/www.conf";
 mkdir -p /run/php/;
 touch /run/php/php7.4-fpm.pid;
 
@@ -51,7 +50,6 @@ if [ ! -f /var/www/wp-config.php ]; then
 	echo "if ( ! defined( 'ABSPATH' ) ) {" >> /var/www/wp-config.php
 	echo "define( 'ABSPATH', __DIR__ . '/' );}" >> /var/www/wp-config.php
 	echo "require_once ABSPATH . 'wp-settings.php';" >> /var/www/wp-config.php
-	#echo "?>" >> /var/www/wp-config.php
 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar;
 	chmod +x wp-cli.phar; 
 	mv wp-cli.phar /usr/local/sbin/wp;
@@ -62,8 +60,10 @@ if [ ! -f /var/www/wp-config.php ]; then
 	chmod -R 775 ./*
 
 	echo "Installing wordpress"
-	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME --admin_user=${DB_ROOT_USER} --admin_password=${DB_PASS} --admin_email=mail@mail.com #--admin_password=${DB_PASS} 
-	#wp user create --allow-root ${DB_ROOT_USER} mail@mail.com --user_pass=${DB_ROOT_PASS};
+	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME \
+		--admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASS} \
+		--admin_email=${WP_ADMIN_MAIL}
+	wp user create --allow-root ${WP_USER} ${WP_MAIL} --user_pass=${WP_PASS};
 	wp theme activate --allow-root twentytwentyone
 fi
 
