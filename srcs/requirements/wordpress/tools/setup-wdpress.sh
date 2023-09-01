@@ -35,21 +35,27 @@ touch /run/php/php7.4-fpm.pid;
 if [ ! -f /var/www/wp-config.php ]; then
 	cd /var/www/
 	touch /var/www/wp-config.php
-	echo "<?php" > /var/www/wp-config.php
-	echo "define( 'DB_NAME', '${DB_NAME}' );" >> /var/www/wp-config.php
-	echo "define( 'DB_USER', '${DB_USER}' );" >> /var/www/wp-config.php
-	echo "define( 'DB_PASSWORD', '${DB_PASS}' );" >> /var/www/wp-config.php
-	echo "define( 'DB_HOST', '${DB_HOST}' );" >> /var/www/wp-config.php
-	echo "define( 'DB_CHARSET', 'utf8' );" >> /var/www/wp-config.php
-	echo "define( 'DB_COLLATE', '' );" >> /var/www/wp-config.php
+	echo << EOF > /var/www/wp-config.php
+"<?php" > /var/www/wp-config.php
+"define( 'DB_NAME', '${DB_NAME}' );"
+"define( 'DB_USER', '${DB_USER}' );"
+define( 'DB_PASSWORD', '${DB_PASS}' );"
+"define( 'DB_HOST', '${DB_HOST}' );"
+"define( 'DB_CHARSET', 'utf8' );"
+"define( 'DB_COLLATE', '' );"
+"define('WP_HOME', 'https://gde-alme.42.fr');" 
+define('WP_SITEURL', 'https://gde-alme.42.fr');
+EOF
 	curl https://api.wordpress.org/secret-key/1.1/salt/ > \
 	echo >> /var/www/wp-config.php
-	echo "define('FS_METHOD','direct');" >> /var/www/wp-config.php
-	echo "\$table_prefix = 'wp_';" >> /var/www/wp-config.php
-	echo "define( 'WP_DEBUG', true );" >> /var/www/wp-config.php
-	echo "if ( ! defined( 'ABSPATH' ) ) {" >> /var/www/wp-config.php
-	echo "define( 'ABSPATH', __DIR__ . '/' );}" >> /var/www/wp-config.php
-	echo "require_once ABSPATH . 'wp-settings.php';" >> /var/www/wp-config.php
+	echo << EOF >> /var/www/wp-config.php
+echo "define('FS_METHOD','direct');"
+echo "\$table_prefix = 'wp_';"
+echo "define( 'WP_DEBUG', true );"
+echo "if ( ! defined( 'ABSPATH' ) ) {"
+echo "define( 'ABSPATH', __DIR__ . '/' );}"
+echo "require_once ABSPATH . 'wp-settings.php';"
+EOF
 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar;
 	chmod +x wp-cli.phar; 
 	mv wp-cli.phar /usr/local/sbin/wp;
