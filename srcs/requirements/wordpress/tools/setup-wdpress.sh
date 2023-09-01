@@ -21,6 +21,7 @@ touch /run/php/php7.4-fpm.pid;
 cd /var/www/
 
 chmod 775 wp-config.php
+sed -i "s/\${DB_NAME}/$DB_NAME/g; s/\${DB_USER}/$DB_USER/g; s/\${DB_PASS}/$DB_PASS/g; s/\${DB_HOST}/$DB_HOST/g" wp-config.php
 curl https://api.wordpress.org/secret-key/1.1/salt/ > \
 	echo >> /var/www/wp-config.php
 
