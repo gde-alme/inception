@@ -38,7 +38,6 @@ server {
         	fastcgi_pass wordpress:9000;
 		include fastcgi_params;
                 fastcgi_intercept_errors on;
-                #The following parameter can be also included in fastcgi_params file
                 fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
     	}
 
