@@ -64,7 +64,8 @@ if [ ! -f /var/www/wp-config.php ]; then
 		--admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASS} \
 		--admin_email=${WP_ADMIN_MAIL}
 	wp user create --allow-root ${WP_USER} ${WP_MAIL} --user_pass=${WP_PASS};
-	wp theme activate --allow-root twentytwentyone
+	wp theme install --allow-root astra --activate
+	#wp theme activate --allow-root twentytwentyone
 fi
 
 

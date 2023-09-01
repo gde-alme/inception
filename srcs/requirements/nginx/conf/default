@@ -5,6 +5,13 @@ events {
 
 http {
 
+# Upstream to abstract backend connection(s) for php
+upstream php {
+        server unix:/tmp/php-cgi.socket;
+        server 127.0.0.1:9000;
+}
+
+
 server {
 
 	listen 443 ssl;
@@ -24,22 +31,21 @@ server {
 	keepalive_timeout	70;
 
 	location / {
-        	try_files $uri /index.php?$args;
-        	add_header Last-Modified $date_gmt;
-        	add_header Cache-Control 'no-store, no-cache';
-        	if_modified_since off;
-        	expires off;
-        	etag off;
+		try_files $uri $uri/ /index.php?$args;
     	}
     	
 	location ~ \.php$ {
-        	fastcgi_split_path_info ^(.+\.php)(/.+)$;
         	fastcgi_pass wordpress:9000;
-        	fastcgi_index index.php;
-        	include fastcgi_params;
-        	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        	fastcgi_param PATH_INFO $fastcgi_path_info;
+		include fastcgi_params;
+                fastcgi_intercept_errors on;
+                #The following parameter can be also included in fastcgi_params file
+                fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
     	}
+
+   	location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+                expires max;
+                log_not_found off;
+        }
 }
 
 }
