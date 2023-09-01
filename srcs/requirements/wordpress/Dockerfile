@@ -36,13 +36,12 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y wget curl unzip \
 	iputils-ping \
 	&& rm -rf /var/lib/apt/lists/
 
-RUN mkdir -p /run/php
+# add php-fpm config
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
+
+# add wp-config
+COPY ./conf/wp-config.php /var/www/
 
 COPY ./tools/setup-wdpress.sh ./
 RUN chmod +x ./setup-wdpress.sh ; 
 ENTRYPOINT ["bash", "./setup-wdpress.sh"]
-#ENTRYPOINT ["sh", "-c", "echo 'Starting...' && ./setup-wdpress.sh"]
-
-#rm ./setup-wdpress.sh
-
-#CMD ["php-fpm7.4", "-F"]
