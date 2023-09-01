@@ -11,7 +11,7 @@ define( 'WP_SITEURL', 'https://gde-alme.42.fr' );
 
 define('FS_METHOD','direct');
 
-\$table_prefix = 'wp_';
+$table_prefix = 'wp_';
 
 define( 'WP_DEBUG', true );
 if ( ! defined( 'ABSPATH' ) ) {
