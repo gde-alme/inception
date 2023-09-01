@@ -40,7 +40,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y wget curl unzip \
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 
 # add wp-config
-COPY ./conf/wp-config.php /var/www/
+COPY ./conf/wp-config.php /var/www/wp-config-default.php
 
 COPY ./tools/setup-wdpress.sh ./
 RUN chmod +x ./setup-wdpress.sh ; 
