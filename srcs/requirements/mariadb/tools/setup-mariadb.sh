@@ -31,15 +31,4 @@ EOF
 	rm -f $tfile
 fi
 
-# allow remote connections
-sed -i "s|skip-networking|# skip-networking|g" /etc/mysql/mariadb.conf.d/50-server.cnf
-sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/mysql/mariadb.conf.d/50-server.cnf
-
-
 exec /usr/sbin/mysqld --user=mysql --console
-
-
-#DROP DATABASE test;
-#DELETE FROM	mysql.user WHERE User='';
-#DELETE FROM mysql.db WHERE Db='test';
-#DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
