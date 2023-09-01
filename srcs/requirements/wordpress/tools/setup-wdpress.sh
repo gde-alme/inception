@@ -27,6 +27,7 @@ if [ ! -f "wp-config.php" ]; then
 		echo >> wp-config.php
 	echo >> wp-config.php
 	echo "require_once ABSPATH . 'wp-settings.php';" >> wp-config.php
+	chmod 755 wp-config.php
 
 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar;
 	chmod +x wp-cli.phar; 
