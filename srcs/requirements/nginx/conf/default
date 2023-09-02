@@ -19,8 +19,8 @@ http {
 
 		index index.php;
 
-		ssl_certificate     /etc/nginx/ssl/gde-alme.42.fr.crt;
-		ssl_certificate_key /etc/nginx/ssl/gde-alme.42.fr.key;
+		ssl_certificate     /etc/nginx/ssl/${SERVER_NAME}.crt;
+		ssl_certificate_key /etc/nginx/ssl/${SERVER_NAME}.key;
 
 		ssl_protocols	TLSv1.2 TLSv1.3;
 

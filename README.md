@@ -27,9 +27,9 @@ Inception is a robust project that leverages the power of Docker to seamlessly i
 
 ## 📚  Features
 
-- **Nginx**:Nginx with SSL to localhost (user.42.fr). 
-- **MariaDB**: MariaDB database ready for wordpress. 
-- **Wordpress**: Wordpress installation with admin and custom user 
+- **Nginx** -> Nginx with SSL to localhost (user.42.fr). 
+- **MariaDB** -> MariaDB database ready for wordpress. 
+- **Wordpress** -> Wordpress installation with admin and custom user 
 
 ---
 
@@ -51,7 +51,7 @@ Inception is a robust project that leverages the power of Docker to seamlessly i
 
 ## 🧪  Usage
 
-- **Admin**:Go to https://$user.42.fr/wp-admin
-- **Visitor**:Go to https://$user.42.fr/
+- **Admin** -> Go to https://$user.42.fr/wp-admin.
+- **Visitor** -> Go to https://$user.42.fr.
 
 ---

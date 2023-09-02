@@ -1,10 +1,27 @@
-all: init_setup
+all:
+	@clear
+	@echo
+	@echo "----------------------------- Inception ----------------------------"
+	@echo
+	@echo "\tSimple install\t\t->\tmake install"
+	@echo "\tSetup ssl\t\t->\tmake ssl"
+	@echo "\tSetup ssl & install\t->\tmake full-install"
+	@echo "\tBuild containers\t->\tmake build"
+	@echo "\tStop containers\t\t->\tmake down"
+	@echo
+	@echo "--------------------------------------------------------------------"
+	@echo
+	@echo
+
+install:
 	mkdir -p /home/${USER}/data/wordpress ; chmod -R 777 /home/${USER}/data/wordpress
 	mkdir -p /home/${USER}/data/mysql ; chmod -R 777 /home/${USER}/data/mysql
 	docker-compose -f ./srcs/docker-compose.yml up -d
 
-init_setup:
+ssl:
 	chmod +x ./srcs/requirements/tools/setup-ssl.sh ; bash ./srcs/requirements/tools/setup-ssl.sh
+
+full-install: ssl install
 
 build:
 	docker-compose -f ./srcs/docker-compose.yml up -d --build
