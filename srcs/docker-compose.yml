@@ -43,8 +43,6 @@ services:
 
   volumes:
     - wp-volume:/var/www/
-  ports:
-    - "9000:9000"
   networks:
     - inception
 
@@ -61,8 +59,6 @@ services:
      - DB_PASS=$DB_PASS
   volumes:
    - mdb-volume:/var/lib/mysql
-  ports:
-   - "3306:3306"
   networks:
     - inception
 

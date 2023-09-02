@@ -20,6 +20,7 @@ touch /run/php/php7.4-fpm.pid;
 
 cd /var/www/
 
+# if no previous wp-config create and install wordpress
 if [ ! -f "wp-config.php" ]; then
 	mv wp-config-default.php wp-config.php
 	sed -i "s/\${DB_NAME}/$DB_NAME/g; s/\${DB_USER}/$DB_USER/g; s/\${DB_PASS}/$DB_PASS/g; s/\${DB_HOST}/$DB_HOST/g" wp-config.php
@@ -39,8 +40,8 @@ if [ ! -f "wp-config.php" ]; then
 	find /var/www -type d -exec chmod 755 {} +
 	find /var/www -type f -exec chmod 644 {} +
 
-	chown -R www-data:www-data /var/www/*
-	chown -R www-data:www-data /var/www/
+	chown -R www-data:www-data /var/www
+	chown -R www-data /var
 
 	echo "Installing wordpress..."
 	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME \

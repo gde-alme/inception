@@ -1,5 +1,10 @@
 #!/bin/bash
 
+clear
+echo "--------------------------- Begin setup-sll setup script---------------------------"
+echo
+echo
+
 sudo apt-get update -y ; sudo apt-get install -y wget curl libnss3-tools ufw
 
 curl -s https://api.github.com/repos/FiloSottile/mkcert/releases/latest| grep browser_download_url  | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
@@ -22,3 +27,6 @@ mv ./$USER.42.fr.pem ./srcs/requirements/nginx/tools/$USER.42.fr.crt
 sudo ufw allow 433
 sudo ufw enable
 
+echo
+echo
+echo "--------------------------- End setup-sll setup script---------------------------"

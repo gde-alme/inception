@@ -1,5 +1,10 @@
 #!/bin/sh
 
+clear
+echo "--------------------------- Begin mariadb setup script---------------------------"
+echo
+echo
+
 if [ ! -d "/run/mysqld" ]; then
 	mkdir -p /run/mysqld
 	chown -R mysql:mysql /run/mysqld
@@ -31,8 +36,6 @@ fi
 
 exec /usr/sbin/mysqld --user=mysql --console
 
-
-#UPDATE mysql.user SET plugin = '' WHERE user = 'root' AND host = 'localhost';
-
-#ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT';
-#DELETE FROM mysql.user WHERE User='root';
+echo
+echo
+echo "--------------------------- End mariadb setup script---------------------------"
