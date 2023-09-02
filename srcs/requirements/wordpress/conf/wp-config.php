@@ -13,7 +13,7 @@ define('FS_METHOD','direct');
 
 define( 'WP_DEBUG', true );
 define( 'WP_DEBUG_LOG', true );
-define( 'WP_DEBUG_DISPLAY', false) ;
+define( 'WP_DEBUG_DISPLAY', true ) ;
 @ini_set( 'display_errors', 0 );
 
 $table_prefix = 'wp_';

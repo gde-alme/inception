@@ -1,50 +1,68 @@
-FROM debian:bullseye
-
-ARG SERVER_NAME
-
+FROM alpine:3.17
 ARG DB_NAME
-ARG DB_HOST
 ARG DB_USER
 ARG DB_PASS
+RUN apk update && apk upgrade && apk add --no-cache \
+    php81 \
+    php81-fpm \
+    php81-mysqli \
+    php81-json \
+    php81-curl \
+    php81-dom \
+    php81-exif \
+    php81-phar \
+    php81-fileinfo \
+    php81-mbstring \
+    php81-openssl \
+    php81-xml \
+    php81-zip \
+    php81-redis \
+    wget \
+    unzip
+RUN sed -i 's/listen = 127.0.0.1:9000/listen = 9000/g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's/;listen.owner = nobody/listen.owner = nobody/g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's/;listen.group = nobody/listen.group = nobody/g' /etc/php81/php-fpm.d/www.conf
+#WORKDIR /var/www
+#RUN wget https://wordpress.org/latest.zip
+#RUN unzip latest.zip
+#RUN rm latest.zip
+#RUN cp -rf wordpress/* .
+#RUN rm -rf wordpress
 
-ARG WP_ADMIN_USER
-ARG WP_ADMIN_PASS
-ARG WP_ADMIN_MAIL
-ARG WP_USER
-ARG WP_PASS
-ARG WP_MAIL
+RUN mkdir -p /var/www
+RUN mkdir ~/data
+RUN mkdir ~/data/mariadb
+RUN mkdir ~/data/wordpress
+RUN chmod -R 777 ~/data
+RUN touch /var/www/wp-config.php
+RUN echo "<?php" > /var/www/wp-config.php
+RUN echo "define( 'DB_NAME', '${DB_NAME}' );" >> /var/www/wp-config.php
+RUN echo "define( 'DB_USER', '${DB_USER}' );" >> /var/www/wp-config.php
+RUN echo "define( 'DB_PASSWORD', '${DB_PASS}' );" >> /var/www/wp-config.php
+RUN echo "define( 'DB_HOST', 'mariadb' );" >> /var/www/wp-config.php
+RUN echo "define( 'DB_CHARSET', 'utf8' );" >> /var/www/wp-config.php
+RUN echo "define( 'DB_COLLATE', '' );" >> /var/www/wp-config.php
+RUN echo "define('FS_METHOD','direct');" >> /var/www/wp-config.php
+RUN echo "\$table_prefix = 'wp_';" >> /var/www/wp-config.php
+RUN echo "define( 'WP_DEBUG', false );" >> /var/www/wp-config.php
+RUN echo "if ( ! defined( 'ABSPATH' ) ) {" >> /var/www/wp-config.php
+RUN echo "define( 'ABSPATH', __DIR__ . '/' );}" >> /var/www/wp-config.php
+RUN echo "require_once ABSPATH . 'wp-settings.php';" >> /var/www/wp-config.php
+RUN chown -R nobody:nobody /var/www
+RUN chmod -R 755 /var/www
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y wget curl unzip \
-	php \
-	php-cgi \
-	php-cli \
-	php-fpm \
-	php-json \
-	php-mysql \
-	php-zip \
-	php-common \
-	php-curl \
-	php-xml \
-	php-pear \
-	php-bcmath \
-	default-mysql-client \
-	php-pdo \
-	php-gd \
-	php-mbstring \
-	sendmail \
-	iputils-ping \
-	&& rm -rf /var/lib/apt/lists/
+COPY ./tools/ola.sh /tmp/ola.sh
+RUN chmod +x /tmp/ola.sh 
+ENTRYPOINT ["sh", "/tmp/ola.sh"]
 
-# add php-fpm config
-COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
+#RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar;
+#RUN chmod +x wp-cli.phar; 
+#RUN mv wp-cli.phar /usr/bin/wp-cli.phar
+#RUN wp-cli.phar core download --allow-root;
 
-# add wp-config
-COPY ./conf/wp-config.php /var/www/wp-config-default.php
+#RUN wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME \
+#	--admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASS} \
+#	--admin_email=${WP_ADMIN_MAIL}
+#RUN wp user create --allow-root ${WP_USER} ${WP_MAIL} --user_pass=${WP_PASS};
 
-# add new index file
-COPY ./conf/index.php /tmp/
-
-COPY ./tools/setup-wdpress.sh /tmp/
-RUN chmod +x /tmp/setup-wdpress.sh;
-
-ENTRYPOINT ["bash", "/tmp/setup-wdpress.sh"]
+#CMD ["php-fpm81", "-F"]

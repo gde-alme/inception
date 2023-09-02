@@ -31,10 +31,16 @@ if [ ! -f "wp-config.php" ]; then
 	chmod 644 wp-config.php
 
 	echo "Downloading wordpress"
-	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar;
-	chmod +x wp-cli.phar; 
-	mv wp-cli.phar /usr/local/sbin/wp;
-	wp core download --allow-root;
+	#wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar;
+	#chmod +x wp-cli.phar; 
+	#mv wp-cli.phar /usr/local/sbin/wp;
+	#wp core download --allow-root;
+
+	wget https://wordpress.org/latest.zip
+	unzip latest.zip
+	rm latest.zip
+	mv wordpress/* .
+	rm -rf wordpress
 
 	echo "Setting permissions..."
 	find /var/www -type d -exec chmod 755 {} +
@@ -44,12 +50,10 @@ if [ ! -f "wp-config.php" ]; then
 	chown -R www-data /var
 
 	echo "Installing wordpress..."
-	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME \
-		--admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASS} \
-		--admin_email=${WP_ADMIN_MAIL}
-	wp user create --allow-root ${WP_USER} ${WP_MAIL} --user_pass=${WP_PASS};
-	wp theme install --allow-root astra --activate
-	mv /tmp/index.php /var/www/wp-content/themes/astra/
+	#wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME \
+	#	--admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASS} \
+	#	--admin_email=${WP_ADMIN_MAIL}
+	#wp user create --allow-root ${WP_USER} ${WP_MAIL} --user_pass=${WP_PASS};
 fi
 echo "---------------------------End wordpress setup script---------------------------"
 
