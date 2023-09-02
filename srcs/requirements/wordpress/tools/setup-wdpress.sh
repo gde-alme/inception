@@ -39,7 +39,8 @@ if [ ! -f "wp-config.php" ]; then
 	find /var/www -type d -exec chmod 755 {} +
 	find /var/www -type f -exec chmod 644 {} +
 
-	chown -R www-data:www-data /var/www
+	chown -R www-data:www-data /var/www/*
+	chown -R www-data:www-data /var/www/
 
 	echo "Installing wordpress..."
 	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME \

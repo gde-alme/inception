@@ -17,10 +17,11 @@ if [ ! -d "/var/lib/mysql/wordpress" ]; then
 	cat << EOF > $tfile
 USE mysql;
 FLUSH PRIVILEGES;
-ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT';
 CREATE DATABASE $DB_NAME CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE USER '$DB_USER'@'%' IDENTIFIED by '$DB_PASS';
 GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';
+REVOKE ALL PRIVILEGES ON *.* FROM 'root'@'localhost';
+DROP USER 'root'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 	# run init.sql
@@ -29,3 +30,9 @@ EOF
 fi
 
 exec /usr/sbin/mysqld --user=mysql --console
+
+
+#UPDATE mysql.user SET plugin = '' WHERE user = 'root' AND host = 'localhost';
+
+#ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT';
+#DELETE FROM mysql.user WHERE User='root';

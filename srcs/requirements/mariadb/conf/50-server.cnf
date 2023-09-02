@@ -9,6 +9,8 @@
 #this is only for the mysqld standalone daemon
 [mysqld]
 
+#skip-grant-tables
+
 #
 # * Basic Settings
 #
