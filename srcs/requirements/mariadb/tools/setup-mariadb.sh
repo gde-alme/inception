@@ -1,10 +1,5 @@
 #!/bin/sh
 
-clear
-echo "--------------------------- Begin mariadb setup script---------------------------"
-echo
-echo
-
 if [ ! -d "/run/mysqld" ]; then
 	mkdir -p /run/mysqld
 	chown -R mysql:mysql /run/mysqld
@@ -35,7 +30,3 @@ EOF
 fi
 
 exec /usr/sbin/mysqld --user=mysql --console
-
-echo
-echo
-echo "--------------------------- End mariadb setup script---------------------------"

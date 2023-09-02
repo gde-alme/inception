@@ -1,16 +1,8 @@
 FROM debian:buster
 
-ARG SERVER_NAME
 ARG DB_NAME
 ARG DB_USER
 ARG DB_PASS
-ARG WP_ADMIN_USER
-ARG WP_ADMIN_PASS
-ARG WP_ADMIN_MAIL
-ARG WP_USER
-ARG WP_MAIL
-ARG WP_PASS
-
 
 RUN apt update && apt upgrade && apt install -y \
     php7.3 \
@@ -24,13 +16,24 @@ RUN apt update && apt upgrade && apt install -y \
     php7.3-mbstring \
     php7.3-xml \
     php7.3-zip \
+    php7.3-redis \
     wget \
     unzip
 
-RUN sed -i 's/listen = 127.0.0.1:9000/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
-RUN sed -i 's/;listen.owner = www-data/listen.owner = www-data/g' /etc/php/7.3/fpm/pool.d/www.conf
-RUN sed -i 's/;listen.group = www-data/listen.group = www-data/g' /etc/php/7.3/fpm/pool.d/www.conf
+#RUN sed -i 's/listen = \/var\/run\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
+#RUN sed -i 's/;listen.owner = www-data/listen.owner = www-data/g' /etc/php/7.3/fpm/pool.d/www.conf
+#RUN sed -i 's/;listen.group = www-data/listen.group = www-data/g' /etc/php/7.3/fpm/pool.d/www.conf
 
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+RUN mkdir -p /run/php/
+
+WORKDIR /var/www
+
+RUN wget https://wordpress.org/latest.zip
+RUN unzip latest.zip
+RUN rm latest.zip
+RUN cp -rf wordpress/* .
+RUN rm -rf wordpress
 RUN mkdir ~/data
 RUN mkdir ~/data/mariadb
 RUN mkdir ~/data/wordpress
@@ -39,7 +42,7 @@ RUN touch /var/www/wp-config.php
 RUN echo "<?php" > /var/www/wp-config.php
 RUN echo "define( 'DB_NAME', '${DB_NAME}' );" >> /var/www/wp-config.php
 RUN echo "define( 'DB_USER', '${DB_USER}' );" >> /var/www/wp-config.php
-RUN echo "define( 'DB_PASS', '${DB_PASS}' );" >> /var/www/wp-config.php
+RUN echo "define( 'DB_PASSWORD', '${DB_PASS}' );" >> /var/www/wp-config.php
 RUN echo "define( 'DB_HOST', 'mariadb' );" >> /var/www/wp-config.php
 RUN echo "define( 'DB_CHARSET', 'utf8' );" >> /var/www/wp-config.php
 RUN echo "define( 'DB_COLLATE', '' );" >> /var/www/wp-config.php
@@ -52,6 +55,4 @@ RUN echo "require_once ABSPATH . 'wp-settings.php';" >> /var/www/wp-config.php
 RUN chown -R www-data:www-data /var/www
 RUN chmod -R 755 /var/www
 
-COPY ./tools/ola.sh /tmp/ola.sh
-RUN chmod +x /tmp/ola.sh 
-ENTRYPOINT ["sh", "/tmp/ola.sh"]
+ENTRYPOINT ["php-fpm7.3", "-F"]
