@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get update -y ; sudo apt-get install -y wget curl libnss3-tools
+sudo apt-get update -y ; sudo apt-get install -y wget curl libnss3-tools ufw
 
 curl -s https://api.github.com/repos/FiloSottile/mkcert/releases/latest| grep browser_download_url  | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
 
@@ -16,3 +16,7 @@ mkcert -install $USERNAME.42.fr
 
 mv ./$USERNAME.42.fr-key.pem ./requirements/nginx/tools/$USERNAME.42.fr.key
 mv ./$USERNAME.42.fr.pem ./requirements/nginx/tools/$USERNAME.42.fr.crt
+
+sudo ufw allow 433
+sudo ufw enable
+

@@ -30,12 +30,10 @@ services:
     context: ./requirements/wordpress/
     args:
       - SERVER_NAME=$SERVER_NAME
-
       - DB_NAME=$DB_NAME
       - DB_HOST=$DB_HOST
       - DB_USER=$DB_USER
       - DB_PASS=$DB_PASS
-
       - WP_ADMIN_USER=$WP_ADMIN_USER
       - WP_ADMIN_PASS=$WP_ADMIN_PASS
       - WP_ADMIN_MAIL=$WP_ADMIN_MAIL
@@ -76,8 +74,6 @@ services:
   build:
    context: ./requirements/nginx/.
   volumes:
-    - ./requirements/nginx/tools:/etc/nginx/ssl/
-#    - ./public:/var/www/
     - wp-volume:/var/www/
   ports:
     - "443:443"

@@ -7,7 +7,6 @@ ARG DB_HOST
 ARG DB_USER
 ARG DB_PASS
 
-
 ARG WP_ADMIN_USER
 ARG WP_ADMIN_PASS
 ARG WP_ADMIN_MAIL
@@ -42,6 +41,10 @@ COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 # add wp-config
 COPY ./conf/wp-config.php /var/www/wp-config-default.php
 
-COPY ./tools/setup-wdpress.sh ./
-RUN chmod +x ./setup-wdpress.sh ; 
-ENTRYPOINT ["bash", "./setup-wdpress.sh"]
+# add new index file
+COPY ./conf/index.php /tmp/
+
+COPY ./tools/setup-wdpress.sh /tmp/
+RUN chmod +x /tmp/setup-wdpress.sh;
+
+ENTRYPOINT ["bash", "/tmp/setup-wdpress.sh"]

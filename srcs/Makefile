@@ -3,6 +3,7 @@ all:
 	mkdir -p /home/${USER}/data/wordpress ; chmod -R 777 /home/${USER}/data/wordpress
 	mkdir -p /home/${USER}/data/mysql ; chmod -R 777 /home/${USER}/data/mysql
 	docker-compose -f ./docker-compose.yml up -d
+	rm -rf ./requirements/nginx/tools/*
 
 build:
 	docker-compose -f ./docker-compose.yml up -d --build
@@ -14,7 +15,6 @@ clean: down
 	docker system prune -a -f
 
 fclean:
-	rm -rf ./requirements/nginx/tools/*
 	docker stop $$(docker ps -qa)
 	docker system prune --all --force --volumes
 	docker network prune --force

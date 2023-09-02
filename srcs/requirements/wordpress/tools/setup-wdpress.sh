@@ -27,24 +27,27 @@ if [ ! -f "wp-config.php" ]; then
 		echo >> wp-config.php
 	echo >> wp-config.php
 	echo "require_once ABSPATH . 'wp-settings.php';" >> wp-config.php
-	chmod 755 wp-config.php
+	chmod 644 wp-config.php
 
+	echo "Downloading wordpress"
 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar;
 	chmod +x wp-cli.phar; 
 	mv wp-cli.phar /usr/local/sbin/wp;
-
-	echo "Downloading wordpress"
 	wp core download --allow-root;
-	chown -R www-data ./*
-	chmod -R 775 ./*
 
-	echo "Installing wordpress"
+	echo "Setting permissions..."
+	find /var/www -type d -exec chmod 755 {} +
+	find /var/www -type f -exec chmod 644 {} +
+
+	chown -R www-data:www-data /var/www
+
+	echo "Installing wordpress..."
 	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME \
 		--admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASS} \
 		--admin_email=${WP_ADMIN_MAIL}
 	wp user create --allow-root ${WP_USER} ${WP_MAIL} --user_pass=${WP_PASS};
 	wp theme install --allow-root astra --activate
-	#wp theme activate --allow-root twentytwentyone
+	mv /tmp/index.php /var/www/wp-content/themes/astra/
 fi
 echo "---------------------------End wordpress setup script---------------------------"
 
