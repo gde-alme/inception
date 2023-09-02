@@ -14,8 +14,8 @@ sudo sed -i "s/127.0.0.1\tlocalhost/127.0.0.1\t$USERNAME.42.fr localhost/" /etc/
 
 mkcert -install $USERNAME.42.fr
 
-mv ./$USERNAME.42.fr-key.pem ./requirements/nginx/tools/$USERNAME.42.fr.key
-mv ./$USERNAME.42.fr.pem ./requirements/nginx/tools/$USERNAME.42.fr.crt
+mv ./$USERNAME.42.fr-key.pem ./srcs/requirements/nginx/tools/$USERNAME.42.fr.key
+mv ./$USERNAME.42.fr.pem ./srcs/requirements/nginx/tools/$USERNAME.42.fr.crt
 
 sudo ufw allow 433
 sudo ufw enable

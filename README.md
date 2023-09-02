@@ -35,11 +35,23 @@ Inception is a robust project that leverages the power of Docker to seamlessly i
 
 ## 🛠  Setup & Installation
 
-Edit .env file to desired auth
+
    ```bash
-   git clone https://github.com/gde-alme/inception.git
-   cd inception 
-   make
+    git clone https://github.com/gde-alme/inception.git
+    cd inception 
    ```
+   ```
+    Edit srcs/.env-default file to desired values ( database name , wp-admin user , etc ) 
+    and save it as srcs/.env
+   ```
+   ```bash
+    make
+   ```
+    
 
 ## 🧪  Usage
+
+- **Admin**:Go to https://$user.42.fr/wp-admin
+- **Visitor**:Go to https://$user.42.fr/
+
+---

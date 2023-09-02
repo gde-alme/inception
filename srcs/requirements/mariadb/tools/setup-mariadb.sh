@@ -6,9 +6,6 @@ if [ ! -d "/run/mysqld" ]; then
 fi
 
 if [ ! -d "/var/lib/mysql/wordpress" ]; then
-	
-	chown -R mysql:mysql /var/lib/wordpress
-
 	# init database
 	mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
 

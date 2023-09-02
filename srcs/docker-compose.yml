@@ -56,9 +56,9 @@ services:
   build: 
    context: ./requirements/mariadb/
    args:
-     - DB_NAME=${DB_NAME}
-     - DB_USER=${DB_USER}
-     - DB_PASS=${DB_PASS}
+     - DB_NAME=$DB_NAME
+     - DB_USER=$DB_USER
+     - DB_PASS=$DB_PASS
   volumes:
    - mdb-volume:/var/lib/mysql
   ports:
@@ -69,10 +69,14 @@ services:
  nginx:
   container_name: nginx
   restart: always
+  env_file:
+   - .env
   depends_on:
     - wordpress
   build:
    context: ./requirements/nginx/.
+   args:
+     - SERVER_NAME=$SERVER_NAME
   volumes:
     - wp-volume:/var/www/
   ports:
