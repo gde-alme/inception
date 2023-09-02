@@ -5,7 +5,7 @@
 <h1 align="center">Inception</h1>
 
 <p align="center">
-  <strong>🚀 Dive deep into the world of Docker, Nginx, and MariaDB 🚀</strong>
+  <strong>🚀 Self deploying docker containers running a LEMP stack 🚀</strong>
 </p>
 
 ---
