@@ -5,7 +5,7 @@
 <h1 align="center">Inception</h1>
 
 <p align="center">
-  <strong>🚀 Self deploying docker containers running a LEMP stack 🚀</strong>
+  <strong>🚀 Self deploying dockerized LEMP stack 🚀</strong>
 </p>
 
 ---
@@ -21,12 +21,7 @@
 
 ##  📢  Introduction
 
-Inception is a robust project that leverages the power of Docker to seamlessly integrate Nginx, MariaDB and wordpress. 
-  
----
-
-## 📚  Features
-
+Three docker containers:
 - **Nginx** -> Nginx with SSL to localhost (user.42.fr). 
 - **MariaDB** -> MariaDB database ready for wordpress. 
 - **Wordpress** -> Wordpress installation with admin and custom user 
@@ -42,7 +37,7 @@ Inception is a robust project that leverages the power of Docker to seamlessly i
    ```
    ```
     Edit srcs/.env-default file to desired values ( database name , wp-admin user , etc ) 
-    and save it as srcs/.env
+    and save it as srcs/.env 
    ```
    ```bash
     make
