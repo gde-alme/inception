@@ -14,9 +14,21 @@ all:
 	@echo
 
 install:
+	@clear
+	@echo
+	@echo
+	@echo "----------------------------- Start install -----------------------------"
+	@echo
+	@echo
 	mkdir -p /home/${USER}/data/wordpress ; chmod -R 777 /home/${USER}/data/wordpress
 	mkdir -p /home/${USER}/data/mysql ; chmod -R 777 /home/${USER}/data/mysql
+	@echo
 	docker-compose -f ./srcs/docker-compose.yml up -d
+	@echo
+	@echo
+	@echo "----------------------------- End install -------------------------------"
+	@echo
+	@echo
 
 ssl:
 	chmod +x ./srcs/requirements/tools/setup-ssl.sh ; bash ./srcs/requirements/tools/setup-ssl.sh

@@ -40,7 +40,6 @@ services:
       - WP_USER=$WP_USER
       - WP_PASS=$WP_PASS
       - WP_MAIL=$WP_MAIL
-
   volumes:
     - wp-volume:/var/www/
   networks:

@@ -1,6 +1,8 @@
 #!/bin/bash
 
 clear
+echo
+echo
 echo "--------------------------- Begin setup-sll setup script---------------------------"
 echo
 echo
@@ -15,8 +17,7 @@ chmod a+x mkcert
 
 sudo mv mkcert /usr/local/bin/
 
-sudo sed -i '1i 127.0.0.1\t$USER.42.fr' /etc/mysql/mariadb.conf.d/50-server.cnf
-
+sudo sed -i "1i 127.0.0.1\t${USER}.42.fr" /etc/hosts
 #sudo sed -i "s/127.0.0.1\tlocalhost/127.0.0.1\t$USER.42.fr localhost/" /etc/hosts
 
 mkcert -install $USER.42.fr
@@ -30,3 +31,6 @@ sudo ufw enable
 echo
 echo
 echo "--------------------------- End setup-sll setup script---------------------------"
+echo
+echo
+echo

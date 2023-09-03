@@ -12,9 +12,9 @@ define( 'WP_SITEURL', 'https://gde-alme.42.fr' );
 define('FS_METHOD','direct');
 
 define( 'WP_DEBUG', true );
-define( 'WP_DEBUG_LOG', true );
-define( 'WP_DEBUG_DISPLAY', true ) ;
-@ini_set( 'display_errors', 0 );
+#define( 'WP_DEBUG_LOG', true );
+#define( 'WP_DEBUG_DISPLAY', true ) ;
+#@ini_set( 'display_errors', 0 );
 
 $table_prefix = 'wp_';
 
@@ -22,3 +22,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/' );
 }
 
+require_once ABSPATH . 'wp-settings.php';
