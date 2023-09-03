@@ -15,7 +15,6 @@
 - [Introduction](#-introduction)
 - [Features](#-features)
 - [Setup & Installation](#-setup--installation)
-- [Usage](#-usage)
 
 ---
 
@@ -35,18 +34,9 @@ Three docker containers:
     git clone https://github.com/gde-alme/inception.git
     cd inception 
    ```
-   ```
     Edit srcs/.env-default file to desired values ( database name , wp-admin user , etc ) 
     and save it as srcs/.env 
-   ```
    ```bash
     make
    ```
-    
-
-## 🧪  Usage
-
-- **Admin** -> Go to https://$user.42.fr/wp-admin.
-- **Visitor** -> Go to https://$user.42.fr.
-
 ---

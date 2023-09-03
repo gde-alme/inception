@@ -12,7 +12,7 @@ ARG WP_USER
 ARG WP_MAIL
 ARG WP_PASS
 
-RUN apt update && apt upgrade -y && apt install -y \
+RUN apt update > /dev/null 2>&1 && apt upgrade -y> /dev/null 2>&1 && apt install -y \
     php \
      php-fpm \
     php-mysqli \
@@ -28,7 +28,7 @@ RUN apt update && apt upgrade -y && apt install -y \
     #php8.2-redis \
     wget \
     unzip \
-    iputils-ping
+    iputils-ping > /dev/null 2>&1
 
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 

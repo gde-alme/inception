@@ -1,36 +1,23 @@
 #!/bin/bash
 
-clear
-echo
-echo
-echo "--------------------------- Begin setup-sll setup script---------------------------"
-echo
-echo
+rm -rf ./srcs/requirements/nginx/tools/* > /dev/null 2>&1
 
-sudo apt-get update -y ; sudo apt-get install -y wget curl libnss3-tools ufw
+sudo apt-get update -y > /dev/null 2>&1; sudo apt-get install -y wget curl libnss3-tools ufw > /dev/null 2>&1
 
-curl -s https://api.github.com/repos/FiloSottile/mkcert/releases/latest| grep browser_download_url  | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
+wget -q $(curl -s https://api.github.com/repos/FiloSottile/mkcert/releases/latest | grep browser_download_url  | grep linux-amd64 | cut -d '"' -f 4) -O mkcert > /dev/null 2>&1
 
-mv mkcert-v*-linux-amd64 mkcert
+#mv mkcert-v*-linux-amd64 mkcert
 
-chmod a+x mkcert
+chmod a+x mkcert 
 
 sudo mv mkcert /usr/local/bin/
 
 sudo sed -i "1i 127.0.0.1\t${USER}.42.fr" /etc/hosts
-#sudo sed -i "s/127.0.0.1\tlocalhost/127.0.0.1\t$USER.42.fr localhost/" /etc/hosts
 
-mkcert -install $USER.42.fr
+mkcert -install $USER.42.fr > /dev/null 2>&1
 
 mv ./$USER.42.fr-key.pem ./srcs/requirements/nginx/tools/$USER.42.fr.key
 mv ./$USER.42.fr.pem ./srcs/requirements/nginx/tools/$USER.42.fr.crt
 
 sudo ufw allow 433
 sudo ufw enable
-
-echo
-echo
-echo "--------------------------- End setup-sll setup script---------------------------"
-echo
-echo
-echo
