@@ -28,18 +28,6 @@ services:
     - .env
   build:
     context: ./requirements/wordpress/
-    args:
-      - SERVER_NAME=$SERVER_NAME
-      - DB_NAME=$DB_NAME
-      - DB_HOST=$DB_HOST
-      - DB_USER=$DB_USER
-      - DB_PASS=$DB_PASS
-      - WP_ADMIN_USER=$WP_ADMIN_USER
-      - WP_ADMIN_PASS=$WP_ADMIN_PASS
-      - WP_ADMIN_MAIL=$WP_ADMIN_MAIL
-      - WP_USER=$WP_USER
-      - WP_PASS=$WP_PASS
-      - WP_MAIL=$WP_MAIL
   volumes:
     - wp-volume:/var/www/
   networks:
@@ -52,10 +40,6 @@ services:
    - .env
   build: 
    context: ./requirements/mariadb/
-   args:
-     - DB_NAME=$DB_NAME
-     - DB_USER=$DB_USER
-     - DB_PASS=$DB_PASS
   volumes:
    - mdb-volume:/var/lib/mysql
   networks:

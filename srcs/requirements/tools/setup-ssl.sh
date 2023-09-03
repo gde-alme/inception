@@ -6,7 +6,7 @@ sudo apt-get update -y > /dev/null 2>&1; sudo apt-get install -y wget curl libns
 
 wget -q $(curl -s https://api.github.com/repos/FiloSottile/mkcert/releases/latest | grep browser_download_url  | grep linux-amd64 | cut -d '"' -f 4) -O mkcert > /dev/null 2>&1
 
-#mv mkcert-v*-linux-amd64 mkcert
+mv mkcert-v*-linux-amd64 mkcert
 
 chmod a+x mkcert 
 

@@ -2,17 +2,6 @@
 
 echo "---------------------------Starting wordpress setup script---------------------------"
 
-# wait for database to be ready and available
-#while true; do
-#	is_db_available=$(echo "EXIT" | mariadb -h${DB_HOST} -u${DB_USER} -p${DB_PASS} ${DB_NAME} 2>&1)
-#	if [[ -z "$is_db_available" ]]; then
-#		break
-#	else
-#		echo "Waiting for db to be available"
-#		sleep 3
-#	fi
-#done
-
 # create directories and files
 mkdir -p /var/www
 mkdir -p /run/php/;
@@ -37,12 +26,6 @@ if [ ! -d "wordpress" ]; then
 	chmod +x wp-cli.phar; 
 	mv wp-cli.phar /usr/local/sbin/wp;
 	wp core download --allow-root;
-
-	#wget https://wordpress.org/latest.zip
-	#unzip latest.zip
-	#rm latest.zip
-	#mv wordpress/* .
-	#rm -rf wordpress
 
 	echo "Setting permissions..."
 	find /var/www -type d -exec chmod 755 {} +
