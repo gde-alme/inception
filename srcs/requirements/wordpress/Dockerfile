@@ -32,10 +32,10 @@ RUN apt update && apt upgrade -y && apt install -y \
 
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
-RUN mkdir ~/data
-RUN mkdir ~/data/mariadb
-RUN mkdir ~/data/wordpress
-RUN chmod -R 777 ~/data
+#RUN mkdir ~/data
+#RUN mkdir ~/data/mariadb
+#RUN mkdir ~/data/wordpress
+#RUN chmod -R 777 ~/data
 
 RUN mkdir -p /tmp/wordpress
 COPY ./conf/wp-config.php /tmp/wordpress/
