@@ -13,23 +13,23 @@ all:
 	@echo "1) Install"
 	@echo "2) SSL"
 	@echo "3) Full install - Default"
-	@echo "4) Stop"
-	@echo "5) Purge"
-	@echo "6) Quit"
+	@echo "4) Build"
+	@echo "5) Stop"
+	@echo "6) Purge"
+	@echo "7) Quit"
 	@echo
 	@read choice; \
 	case $$choice in \
 		1) make install;; \
 		2) make ssl;; \
 		3) make full-install;; \
-		4) make down;; \
-		5) make purge;; \
-		6) echo "Bye";; \
+		5) make down;; \
+		6) make purge;; \
+		7) echo "Bye";; \
 		*) echo "$(FAIL) $(WHITE)Invalid option$(RESET)";; \
 	esac
 
 install:
-	clear
 	@echo
 	@mkdir -p /home/${USER}/data/wordpress ; chmod -R 777 /home/${USER}/data/wordpress
 	@mkdir -p /home/${USER}/data/mysql ; chmod -R 777 /home/${USER}/data/mysql
@@ -37,14 +37,10 @@ install:
 	@echo
 
 ssl:
-	@clear
 	@echo
 	@rm -rf ./srcs/requirements/nginx/tools/*
 	@chmod +x ./srcs/requirements/tools/setup-ssl.sh
 	@bash ./srcs/requirements/tools/setup-ssl.sh
-	@echo
-
-full-install: ssl install
 
 build:
 	docker-compose -f ./srcs/docker-compose.yml up -d --build
@@ -63,6 +59,8 @@ purge:
 	-docker volume prune --force
 	-docker volume rm $$(docker volume ls -q | awk '{printf "%s ", $$0}')
 	-sudo rm -rf /home/${USER}/data/
+
+full-install: ssl install
 
 re: clean build
 

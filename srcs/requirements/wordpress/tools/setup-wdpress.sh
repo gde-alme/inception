@@ -26,10 +26,10 @@ if [ ! -d "wordpress" ]; then
 	mkdir wordpress
 	mv /tmp/wordpress/wp-config.php wp-config.php
 	sed -i "s/\${DB_NAME}/${DB_NAME}/g; s/\${DB_USER}/${DB_USER}/g; s/\${DB_PASS}/${DB_PASS}/g; s/\${DB_HOST}/${DB_HOST}/g" wp-config.php
-	#curl https://api.wordpress.org/secret-key/1.1/salt/ > \
-		#echo >> wp-config.php
-	#echo >> wp-config.php
-	#echo "require_once ABSPATH . 'wp-settings.php';" >> wp-config.php
+	curl -s https://api.wordpress.org/secret-key/1.1/salt/ > .burger
+	sed -i '/##Inception##/r .burger' wp-config.php
+	sed -i '/##Inception##/d' wp-config.php
+	rm -rf .burger
 	chmod 644 wp-config.php
 
 	echo "Downloading wordpress"
