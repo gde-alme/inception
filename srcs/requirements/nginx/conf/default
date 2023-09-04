@@ -15,7 +15,7 @@ http {
 
 		charset utf-8;
 
-		root    /var/www/;
+		root    /var/www/wordpress;
 
 		index index.php;
 

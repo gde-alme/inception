@@ -10,7 +10,7 @@ chmod a+x mkcert
 
 sudo mv mkcert /usr/local/bin/
 
-grep -Fxq "127.0.0.0.1\t${USER}.42.fr" /etc/hosts || sudo sed -i "1i 127.0.0.1\t${USER}.42.fr" /etc/hosts
+grep -Fxq "127.0.0.1	${USER}.42.fr" /etc/hosts || sudo sed -i "1i 127.0.0.1\t${USER}.42.fr" /etc/hosts
 
 mkcert -install $USER.42.fr > /dev/null 2>&1
 

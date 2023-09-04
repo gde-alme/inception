@@ -5,21 +5,21 @@ echo "---------------------------Starting wordpress setup script----------------
 # create directories and files
 mkdir -p /var/www
 mkdir -p /run/php/;
-touch /run/php/php7.4-fpm.pid;
 touch /run/php/php-fpm7.4.pid;
 
 cd /var/www/
 
-# if no previous wp-config create and install wordpress
+# if no wp install create and install wordpress
 if [ ! -d "wordpress" ]; then
 	mkdir wordpress
+	cd wordpress
 	mv /tmp/wordpress/wp-config.php wp-config.php
-	sed -i "s/\${DB_NAME}/${DB_NAME}/g; s/\${DB_USER}/${DB_USER}/g; s/\${DB_PASS}/${DB_PASS}/g; s/\${DB_HOST}/${DB_HOST}/g" wp-config.php
-	curl -s https://api.wordpress.org/secret-key/1.1/salt/ > .burger
-	sed -i '/##Inception##/r .burger' wp-config.php
-	sed -i '/##Inception##/d' wp-config.php
-	rm -rf .burger
 	chmod 644 wp-config.php
+	sed -i "s/\${DB_NAME}/${DB_NAME}/g; s/\${DB_USER}/${DB_USER}/g; s/\${DB_PASS}/${DB_PASS}/g; s/\${DB_HOST}/${DB_HOST}/g" wp-config.php
+	curl -s https://api.wordpress.org/secret-key/1.1/salt/ > /tmp/wp_auth
+	sed -i '/##Inception##/r /tmp/wp_auth' wp-config.php
+	sed -i '/##Inception##/d' wp-config.php
+	rm -rf /tmp/wp_auth
 
 	echo "Downloading wordpress"
 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar;
@@ -28,11 +28,10 @@ if [ ! -d "wordpress" ]; then
 	wp core download --allow-root;
 
 	echo "Setting permissions..."
-	find /var/www -type d -exec chmod 755 {} +
-	find /var/www -type f -exec chmod 644 {} +
+	find /var/www/wordpress -type d -exec chmod 755 {} +
+	find /var/www/wordpress -type f -exec chmod 644 {} +
 
-	chown -R www-data:www-data /var/www
-	chown -R www-data /var
+	chown -R www-data /var/www/wordpress
 
 	echo "Installing wordpress..."
 	wp core install --allow-root --url=$SERVER_NAME --title=$DB_NAME \
